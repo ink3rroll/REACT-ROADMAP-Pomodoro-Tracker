@@ -1,33 +1,34 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { FiSettings } from 'react-icons/fi'
+
+import './styles/App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className='container'>
+        <div className="row">
+          <button className='settings-btn'><FiSettings/></button>
+        </div>
+        <div className="row">
+          <button className='timer-mode-btn'>Focus</button>
+          <button className='timer-mode-btn'>Short Break</button>
+          <button className='timer-mode-btn'>Long Break</button>
+        </div>
+        <h1>23:00</h1>
+        <div className="row">
+          <button className='timer-increment-btn'>+ 25 min</button>
+          <button className='timer-increment-btn'>+ 10 min</button>
+          <button className='timer-increment-btn'>+ 5 min</button>
+          <button className='timer-increment-btn'>+ 1 min</button>
+        </div>
+        <div className="row">
+          <button>Start</button>
+          <button>Reset</button>
+        </div>
+        
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }

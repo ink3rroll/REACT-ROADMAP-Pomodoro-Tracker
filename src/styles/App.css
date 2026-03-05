@@ -1,0 +1,60 @@
+/* * {
+  outline:solid;
+} */
+
+body {
+  justify-content: center;
+  color: rgba(181, 175, 175, 0.87);
+}
+
+.row {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.timer-increment-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 12px;
+}
+
+.timer-mode-btn {
+  background-color: transparent;
+  font-size: 14px;
+}
+
+.settings-btn {
+  background-color: transparent;
+  margin-left: auto;
+  height: 40px;
+  width: 60px;
+}
+
+.settings-btn:hover {
+  background-color: transparent;
+  margin-left: auto;
+  height: 40px;
+  width: 60px;
+  background-color: transparent;
+}
+
+.settings-btn img {
+  height: 100%;
+  width: 100%;
+}
+
+.timer-increment-btn:hover {
+  background-color: transparent;
+  color: rgb(255, 255, 255);
+}
+
+button:hover {
+  background-color: #0c1115;
+  transition: .5s;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+}
