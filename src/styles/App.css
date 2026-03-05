@@ -7,6 +7,12 @@ body {
   color: rgba(181, 175, 175, 0.87);
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
 .row {
   display: flex;
   justify-content: space-around;
@@ -26,27 +32,54 @@ body {
 
 .settings-btn {
   background-color: transparent;
-  margin-left: auto;
-  height: 40px;
-  width: 60px;
+  margin-left:auto;
+}
+
+.settings-btn svg:hover {
+  color: white;
+  transition: 0.2s ease;
+}
+
+.progress-container {
+  background-color: rgb(61, 59, 59);
+  width: 90%;
+  border-radius: 10px;
+  height: 4px;
+}
+
+.progress-container .progress-bar {
+  background-color: rgb(205, 208, 210);
+  width: 100%;
+  height: 4px;
+  border-radius: 10px;
 }
 
 .settings-btn:hover {
   background-color: transparent;
   margin-left: auto;
-  height: 40px;
-  width: 60px;
-  background-color: transparent;
-}
-
-.settings-btn img {
-  height: 100%;
-  width: 100%;
 }
 
 .timer-increment-btn:hover {
   background-color: transparent;
-  color: rgb(255, 255, 255);
+  transition: .05s;
+}
+
+
+
+
+.timer-increment-btn:active {
+  background-color: transparent;
+  color: white;
+  transition: .01s;
+}
+
+.timer-control-btn {
+  font-size: 13px;
+}
+
+.timer-control-btn:active {
+  color: white;
+  transition: 0s;
 }
 
 button:hover {
@@ -57,4 +90,6 @@ button:hover {
 h1 {
   text-align: center;
   color: white;
+  font-size: 130px;
+  margin: 0px;
 }
