@@ -1,6 +1,6 @@
-* {
+/* * {
   outline:solid;
-}
+} */
 
 body {
   justify-content: center;
@@ -10,31 +10,21 @@ body {
 .settings-modal {
   top: 0;
   left: 0;
-  background-color: rgb(29, 31, 32);
+  right: 0;
+  bottom: 0;
+  background-color: rgba(29, 31, 32, 0.9);
   position: fixed;
   height: 100vh;
   width: 100vw;
-  opacity: 90%;
   z-index: 1;
   display: flex;
-  align-content: center;
-  justify-content: center;
+  align-items: center;
+  justify-content: center; 
 }
 
-.form-container {
-  top: 0;
-  left: 0;
-  position: fixed;
-  align-content: center;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
+
+form {
   z-index: 2;
-}
-
-.form-container form {
-  position: fixed;
-  z-index: 3;
   background-color: #000000;
   opacity: 100%;
   display: flex;
@@ -46,26 +36,37 @@ body {
   align-self: center;
   justify-self: center;
   text-align: center;
-  padding: 10px;
+  padding: 20px;
+  border-radius: 10px;
 }
 
-.form-container label{
+label{
   font-size: 10px;
 }
 
 
-
-.form-container input {
+input {
   background-color: #3a3838;
   border: none;
   color: white;
-  margin: 4px;
+  margin-bottom: 20px;
   padding: 5px;
-  border-radius: 2px;
+  border-radius: 3px;
 }
 
-.form-container input:active {
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input:active, input:focus {
    border: transparent;
+   outline: none;
 }
 
 .container {
@@ -116,9 +117,10 @@ body {
 
 .progress-container .progress-bar {
   background-color: rgb(205, 208, 210);
-  width: 100%;
+  width: 0%;
   height: 4px;
   border-radius: 10px;
+  transition: 0.5s ease;
 }
 
 .settings-btn:hover {

@@ -10,18 +10,41 @@ function App() {
   // 0 = Initial, 1 = Active, 2 = Paused, 3 = Ended
   const [timerStatus, setTimerStatus] = useState(0)
 
+  const [hideModal, setHideModal] = useState(true)
+
   const [focusTimerDefault, setFocusTimerDefault] = useState(25)
   const [shortBreakDefault, setShortBreakDefault] = useState(0.1)
   const [longBreakDefault, setLongBreakDefault] = useState(15)
+
+  const [tempSettings, setTempSettings] = useState({
+    focus: focusTimerDefault,
+    short: shortBreakDefault,
+    long: longBreakDefault
+})
   const [currentTimeAllocation, setCurrentTimeAllocation] = useState(focusTimerDefault)
   const [mainTimer, setMainTimer] = useState(10)
+
+  function handleUpdateSettings() {
+    setFocusTimerDefault(tempSettings["focus"])
+    setShortBreakDefault(tempSettings["short"])
+    setLongBreakDefault(tempSettings["long"])
+    switch(timerMode) {
+      case 0:
+        setCurrentTimeAllocation(tempSettings["focus"])
+        break
+      case 1:
+        setCurrentTimeAllocation(tempSettings["short"])
+        break
+      default:
+        setCurrentTimeAllocation(tempSettings["long"])
+    }
+    setHideModal(true)
+  }
 
 
   function formatTime(timeInSeconds) {
     const minutes = Math.floor(timeInSeconds / 60)
     const seconds = timeInSeconds - (minutes * 60)
-
-    console.log(minutes, seconds)
 
     return `${minutes > 0 ? minutes > 9 ? minutes : `0${minutes}` : "00"}:${seconds > 0 ? seconds > 9 ? seconds : `0${seconds}` : "00"}`
   }
@@ -53,54 +76,68 @@ function App() {
     }
   }, [timerMode])
 
-  console.log("Timer status: ", timerStatus)
+
+  let progressPercent = (mainTimer/(currentTimeAllocation * 60) * 100)
+  console.log(progressPercent)
   
 
   return (
     <>
     
       <div className='container'>
-        <div className='settings-modal'>
-          
-        </div>
-        <div className='form-container'>
-            <form action="">
-              <label htmlFor="focus">Focus Default Timer</label>
-              
-              
-              <input type="number" name="" id="focus" value={focusTimerDefault} />
-              <label htmlFor="short">Short Break Default Timer</label>
-              <input type="number" name="" id="short" value={shortBreakDefault} />
-              <label htmlFor="long">Long Break Default Timer</label>
-              <input type="number" name="" id="long" value={longBreakDefault}/>
-              <button>Update Settings</button>
+        {!hideModal && 
+        <div onClick={() => setHideModal(true)} className='settings-modal'>
+          <form action="" onClick={(e) => e.stopPropagation()}>
+              <label htmlFor="focus">Focus Default Timer Min</label>
+              <input type="number" onChange={(e) => setTempSettings({...tempSettings, focus: e.target.value})} name="" id="focus" value={tempSettings["focus"]} />
+              <label htmlFor="short">Short Break Default Timer Min</label>
+              <input type="number" onChange={(e) => setTempSettings({...tempSettings, short: e.target.value})} name="" id="short" value={tempSettings["short"]} />
+              <label htmlFor="long">Long Break Default Timer Min</label>
+              <input type="number" onChange={(e) => setTempSettings({...tempSettings, long: e.target.value})} name="" id="long" value={tempSettings["long"]}/>
+              <button type='button' onClick={() => handleUpdateSettings()}>Update Settings</button>
             </form>
-          </div>
+        </div>}
+        
+    
         <div className="row">
-          <button onClick={() => timerMode != 0 ? setTimerMode(0): pass} className='timer-mode-btn' data-active={timerMode === 0}>Focus</button>
-          <button onClick={() => timerMode != 1 ? setTimerMode(1): pass} className='timer-mode-btn' data-active={timerMode === 1}>Short Break</button>
-          <button onClick={() => timerMode != 2 ? setTimerMode(2): pass} className='timer-mode-btn' data-active={timerMode === 2}>Long Break</button>
+          <button onClick={() => setTimerMode(0)} className='timer-mode-btn' data-active={timerMode === 0}>Focus</button>
+          <button onClick={() => setTimerMode(1)} className='timer-mode-btn' data-active={timerMode === 1}>Short Break</button>
+          <button onClick={() => setTimerMode(2)} className='timer-mode-btn' data-active={timerMode === 2}>Long Break</button>
         </div>
         
         <h1>{formatTime(mainTimer)}</h1>
         <div className="row">
           <div className='progress-container'>
-            <div className='progress-bar'></div>
+            <div style={{ width: `${progressPercent}%` }} className='progress-bar'></div>
           </div>
         </div>
-        <button className='settings-btn'><FiSettings/></button>
+        <button onClick={() => setHideModal(false)} className='settings-btn'><FiSettings/></button>
         
         <div className="row">
-          <button onClick={() => setMainTimer(mainTimer + (25*60))} className='timer-increment-btn'>+ 25 min</button>
-          <button onClick={() => setMainTimer(mainTimer + (10*60))} className='timer-increment-btn'>+ 10 min</button>
-          <button onClick={() => setMainTimer(mainTimer + (5*60))} className='timer-increment-btn'>+ 5 min</button>
-          <button onClick={() => setMainTimer(mainTimer + (1*60))} className='timer-increment-btn'>+ 1 min</button>
+          <button onClick={() => {
+            setMainTimer(mainTimer + (25*60))
+            setCurrentTimeAllocation((prev) => prev + (25))
+          }} className='timer-increment-btn'>+ 25 min</button>
+          <button onClick={() => {
+            setMainTimer(mainTimer + (10*60))
+            setCurrentTimeAllocation((prev) => prev + (10))
+          }} className='timer-increment-btn'>+ 10 min</button>
+          <button onClick={() => {
+            setMainTimer(mainTimer + (5*60))
+            setCurrentTimeAllocation((prev) => prev + (5))
+          }} className='timer-increment-btn'>+ 5 min</button>
+          <button onClick={() => {
+            setMainTimer(mainTimer + (1*60))
+            setCurrentTimeAllocation((prev) => prev + (1))
+          }} className='timer-increment-btn'>+ 1 min</button>
         </div>
         <div className="row">
           <button onClick={() => timerStatus === 0 ? setTimerStatus(1) : timerStatus === 2 ? setTimerStatus(1)  : setTimerStatus(2)} className='timer-control-btn' hidden={mainTimer === 0}>{timerStatus === 0 ? "Start" : timerStatus === 1 ? "Pause" : "Resume"}</button>
           <button onClick={() => {
             setTimerStatus(0)
-            setMainTimer(currentTimeAllocation * 60)}} className='timer-control-btn' hidden={timerStatus === 0}>Reset</button>
+            setMainTimer(timerMode === 0 ? focusTimerDefault * 60 : timerMode === 1 ? shortBreakDefault * 60 : longBreakDefault * 60)
+            }} className='timer-control-btn' hidden={timerStatus === 0}>Reset</button>
+            
         </div>
         
       </div>
