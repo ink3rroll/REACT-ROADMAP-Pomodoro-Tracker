@@ -1,10 +1,71 @@
-/* * {
+* {
   outline:solid;
-} */
+}
 
 body {
   justify-content: center;
   color: rgba(181, 175, 175, 0.87);
+}
+
+.settings-modal {
+  top: 0;
+  left: 0;
+  background-color: rgb(29, 31, 32);
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  opacity: 90%;
+  z-index: 1;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.form-container {
+  top: 0;
+  left: 0;
+  position: fixed;
+  align-content: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+}
+
+.form-container form {
+  position: fixed;
+  z-index: 3;
+  background-color: #000000;
+  opacity: 100%;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  width: fit-content;
+  align-content: center;
+  justify-content: center;
+  align-self: center;
+  justify-self: center;
+  text-align: center;
+  padding: 10px;
+}
+
+.form-container label{
+  font-size: 10px;
+}
+
+
+
+.form-container input {
+  background-color: #3a3838;
+  border: none;
+  color: white;
+  margin: 4px;
+  padding: 5px;
+  border-radius: 2px;
+}
+
+.form-container input:active {
+   border: transparent;
 }
 
 .container {
@@ -27,6 +88,12 @@ body {
 
 .timer-mode-btn {
   background-color: transparent;
+  font-size: 14px;
+}
+
+.timer-mode-btn[data-active="true"] {
+  background-color: rgb(24, 23, 23);
+  color: white;
   font-size: 14px;
 }
 

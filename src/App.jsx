@@ -11,8 +11,9 @@ function App() {
   const [timerStatus, setTimerStatus] = useState(0)
 
   const [focusTimerDefault, setFocusTimerDefault] = useState(25)
-  const [shortBreakDefault, setShortBreakDefault] = useState(5)
+  const [shortBreakDefault, setShortBreakDefault] = useState(0.1)
   const [longBreakDefault, setLongBreakDefault] = useState(15)
+  const [currentTimeAllocation, setCurrentTimeAllocation] = useState(focusTimerDefault)
   const [mainTimer, setMainTimer] = useState(10)
 
 
@@ -38,16 +39,47 @@ function App() {
 
   }, [mainTimer, timerStatus])
 
+  useEffect(() => {
+    setTimerStatus(0)
+    if (timerMode === 0) {
+      setMainTimer(focusTimerDefault * 60)
+      setCurrentTimeAllocation(focusTimerDefault)
+    } else if(timerMode === 1) {
+      setMainTimer(shortBreakDefault * 60)
+      setCurrentTimeAllocation(shortBreakDefault)
+    } else {
+      setMainTimer(longBreakDefault * 60)
+      setCurrentTimeAllocation(longBreakDefault)
+    }
+  }, [timerMode])
+
   console.log("Timer status: ", timerStatus)
   
 
   return (
     <>
+    
       <div className='container'>
+        <div className='settings-modal'>
+          
+        </div>
+        <div className='form-container'>
+            <form action="">
+              <label htmlFor="focus">Focus Default Timer</label>
+              
+              
+              <input type="number" name="" id="focus" value={focusTimerDefault} />
+              <label htmlFor="short">Short Break Default Timer</label>
+              <input type="number" name="" id="short" value={shortBreakDefault} />
+              <label htmlFor="long">Long Break Default Timer</label>
+              <input type="number" name="" id="long" value={longBreakDefault}/>
+              <button>Update Settings</button>
+            </form>
+          </div>
         <div className="row">
-          <button className='timer-mode-btn'>Focus</button>
-          <button className='timer-mode-btn'>Short Break</button>
-          <button className='timer-mode-btn'>Long Break</button>
+          <button onClick={() => timerMode != 0 ? setTimerMode(0): pass} className='timer-mode-btn' data-active={timerMode === 0}>Focus</button>
+          <button onClick={() => timerMode != 1 ? setTimerMode(1): pass} className='timer-mode-btn' data-active={timerMode === 1}>Short Break</button>
+          <button onClick={() => timerMode != 2 ? setTimerMode(2): pass} className='timer-mode-btn' data-active={timerMode === 2}>Long Break</button>
         </div>
         
         <h1>{formatTime(mainTimer)}</h1>
@@ -66,7 +98,9 @@ function App() {
         </div>
         <div className="row">
           <button onClick={() => timerStatus === 0 ? setTimerStatus(1) : timerStatus === 2 ? setTimerStatus(1)  : setTimerStatus(2)} className='timer-control-btn' hidden={mainTimer === 0}>{timerStatus === 0 ? "Start" : timerStatus === 1 ? "Pause" : "Resume"}</button>
-          <button className='timer-control-btn'>Reset</button>
+          <button onClick={() => {
+            setTimerStatus(0)
+            setMainTimer(currentTimeAllocation * 60)}} className='timer-control-btn' hidden={timerStatus === 0}>Reset</button>
         </div>
         
       </div>
