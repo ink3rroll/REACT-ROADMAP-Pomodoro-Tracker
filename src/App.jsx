@@ -136,6 +136,7 @@ function App() {
           <button onClick={() => {
             setTimerStatus(0)
             setMainTimer(timerMode === 0 ? focusTimerDefault * 60 : timerMode === 1 ? shortBreakDefault * 60 : longBreakDefault * 60)
+            setCurrentTimeAllocation(timerMode === 0 ? focusTimerDefault : timerMode === 1 ? shortBreakDefault : longBreakDefault)
             }} className='timer-control-btn' hidden={timerStatus === 0}>Reset</button>
             
         </div>
