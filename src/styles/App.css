@@ -105,7 +105,7 @@ input:active, input:focus {
 
 .timer-mode-btn {
   background-color: transparent;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .timer-mode-btn[data-active="true"] {
