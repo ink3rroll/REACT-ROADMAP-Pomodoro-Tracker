@@ -30,7 +30,7 @@ function App() {
   function resetTimer() {
       setCurrentTimeAllocation(timerMode === 0 ? focusTimerDefault : timerMode === 1 ? shortBreakDefault : longBreakDefault)
       setTimerStatus(0)
-      console.log("current time in main: ", timerMode === 0 ? focusTimerDefault * 60 : timerMode === 1 ? shortBreakDefault * 60 : longBreakDefault * 60)
+      
       setMainTimer(timerMode === 0 ? focusTimerDefault * 60 : timerMode === 1 ? shortBreakDefault * 60 : longBreakDefault * 60)
   }
 
@@ -93,7 +93,7 @@ function App() {
     }
   }, [timerMode])
 
-
+  console.log(currentTimeAllocation)
   let progressPercent = ((mainTimer/(currentTimeAllocation * 60)) * 100)
 
   
@@ -106,11 +106,11 @@ function App() {
         <div onMouseDown={(e) => {if (e.target === e.currentTarget){setHideModal(true)} }} className='settings-modal'>
           <form action="" onMouseDown={(e) => e.stopPropagation()}>
               <label htmlFor="focus">Focus Default Timer Min</label>
-              <input type="number" onChange={(e) => setTempSettings({...tempSettings, focus: e.target.value})} name="" id="focus" value={tempSettings["focus"]} />
+              <input type="number" onChange={(e) => setTempSettings({...tempSettings, focus: Number(e.target.value)})} name="" id="focus" value={tempSettings["focus"]} />
               <label htmlFor="short">Short Break Default Timer Min</label>
-              <input type="number" onChange={(e) => setTempSettings({...tempSettings, short: e.target.value})} name="" id="short" value={tempSettings["short"]} />
+              <input type="number" onChange={(e) => setTempSettings({...tempSettings, short: Number(e.target.value)})} name="" id="short" value={tempSettings["short"]} />
               <label htmlFor="long">Long Break Default Timer Min</label>
-              <input type="number" onChange={(e) => setTempSettings({...tempSettings, long: e.target.value})} name="" id="long" value={tempSettings["long"]}/>
+              <input type="number" onChange={(e) => setTempSettings({...tempSettings, long: Number(e.target.value)})} name="" id="long" value={tempSettings["long"]}/>
               <button disabled={(tempSettings["focus"] === focusTimerDefault && tempSettings["short"] === shortBreakDefault && tempSettings["long"] === longBreakDefault)} className='update-btn' type='button' onClick={() => handleUpdateSettings()}>Update Settings</button>
             </form>
         </div>}
@@ -132,26 +132,29 @@ function App() {
         
         <div className="row">
           <button onClick={() => {
+            setCurrentTimeAllocation((prev) => prev + 25)
             setMainTimer(mainTimer + (25*60))
-            setCurrentTimeAllocation((prev) => prev + (25))
+            
           }} className='timer-increment-btn'>+ 25 min</button>
           <button onClick={() => {
+            setCurrentTimeAllocation((prev) => prev + 10)
             setMainTimer(mainTimer + (10*60))
-            setCurrentTimeAllocation((prev) => prev + (10))
+            
           }} className='timer-increment-btn'>+ 10 min</button>
           <button onClick={() => {
+            setCurrentTimeAllocation((prev) => prev + 5)
             setMainTimer(mainTimer + (5*60))
-            setCurrentTimeAllocation((prev) => prev + (5))
+            
           }} className='timer-increment-btn'>+ 5 min</button>
           <button onClick={() => {
+            setCurrentTimeAllocation((prev) => prev + 1)
             setMainTimer(mainTimer + (1*60))
-            setCurrentTimeAllocation((prev) => prev + (1))
+            
           }} className='timer-increment-btn'>+ 1 min</button>
         </div>
         <div className="row">
           <button onClick={() => timerStatus === 0 ? setTimerStatus(1) : timerStatus === 2 ? setTimerStatus(1)  : setTimerStatus(2)} className='timer-control-btn' hidden={mainTimer === 0}>{timerStatus === 0 ? "Start" : timerStatus === 1 ? "Pause" : "Resume"}</button>
           <button onClick={() => resetTimer()} className='timer-control-btn' hidden={timerStatus === 0}>Reset</button>
-            
         </div>
         
       </div>
