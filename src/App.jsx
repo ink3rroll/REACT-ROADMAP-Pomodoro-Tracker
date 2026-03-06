@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { FiSettings } from 'react-icons/fi'
 import alarmsound from './assets/alarm.mp3'
 import lowtime from './assets/lowtime.mp3'
+import pop from './assets/pop.mp3'
 
 import './styles/App.css'
 
@@ -9,6 +10,7 @@ function App() {
 
   const alarm = new Audio(alarmsound)
   const low = new Audio(lowtime)
+  const popsound = new Audio(pop)
   // 0 = Focus, 1 = Short Break, 2 = Long Break
   const [timerMode, setTimerMode] = useState(0)
   
@@ -64,8 +66,10 @@ function App() {
       default:
         setCurrentTimeAllocation(tempSettings["long"])
     }
+    popsound.play()
     setHideModal(true)
     setToastAppear(true)
+    
     setTimeout(() => {
       setToastAppear(false)
     }, 2000)
