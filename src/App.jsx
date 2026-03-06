@@ -16,6 +16,7 @@ function App() {
   const [timerStatus, setTimerStatus] = useState(0)
 
   const [hideModal, setHideModal] = useState(true)
+  const [toastAppear, setToastAppear] = useState(false)
 
   const [focusTimerDefault, setFocusTimerDefault] = useState(25)
   const [shortBreakDefault, setShortBreakDefault] = useState(5)
@@ -36,8 +37,8 @@ function App() {
       setMainTimer(timerMode === 0 ? focusTimerDefault * 60 : timerMode === 1 ? shortBreakDefault * 60 : longBreakDefault * 60)
   }
 
-  function handleUpdateSettings() {
-    
+  function handleUpdateSettings(e) {
+    e.preventDefault()    
     setFocusTimerDefault(tempSettings["focus"])
     setShortBreakDefault(tempSettings["short"])
     setLongBreakDefault(tempSettings["long"])
@@ -52,10 +53,15 @@ function App() {
         setCurrentTimeAllocation(tempSettings["long"])
     }
     setHideModal(true)
+    setToastAppear(true)
+    setTimeout(() => {
+      setToastAppear(false)
+    }, 2000)
   }
 
   useEffect(() => {
     resetTimer()
+    
   }, [focusTimerDefault, shortBreakDefault, longBreakDefault])
 
 
@@ -77,7 +83,7 @@ function App() {
       alarm.play()
     }
 
-    if (mainTimer < 11) {
+    if (mainTimer < 11 && timerStatus === 1) {
       low.play()
     }
 
@@ -107,16 +113,17 @@ function App() {
     <>
     
       <div className='container'>
+        <div className='toast' hidden={!toastAppear} >Updated Successfully!</div>
         {!hideModal && 
         <div onMouseDown={(e) => {if (e.target === e.currentTarget){setHideModal(true)} }} className='settings-modal'>
           <form action="" onMouseDown={(e) => e.stopPropagation()}>
               <label htmlFor="focus">Focus Default Timer Min</label>
-              <input type="number" onChange={(e) => setTempSettings({...tempSettings, focus: Number(e.target.value)})} name="" id="focus" value={tempSettings["focus"]} />
+              <input type="number" min="1" step="1" onChange={(e) => setTempSettings({...tempSettings, focus: Number(e.target.value)})} name="" id="focus" value={tempSettings["focus"]} />
               <label htmlFor="short">Short Break Default Timer Min</label>
-              <input type="number" onChange={(e) => setTempSettings({...tempSettings, short: Number(e.target.value)})} name="" id="short" value={tempSettings["short"]} />
+              <input type="number" min="1" step="1" onChange={(e) => setTempSettings({...tempSettings, short: Number(e.target.value)})} name="" id="short" value={tempSettings["short"]} />
               <label htmlFor="long">Long Break Default Timer Min</label>
-              <input type="number" onChange={(e) => setTempSettings({...tempSettings, long: Number(e.target.value)})} name="" id="long" value={tempSettings["long"]}/>
-              <button disabled={(tempSettings["focus"] === focusTimerDefault && tempSettings["short"] === shortBreakDefault && tempSettings["long"] === longBreakDefault)} className='update-btn' type='button' onClick={() => handleUpdateSettings()}>Update Settings</button>
+              <input type="number" min="1" step="1" onChange={(e) => setTempSettings({...tempSettings, long: Number(e.target.value)})} name="" id="long" value={tempSettings["long"]}/>
+              <button disabled={(tempSettings["focus"] === focusTimerDefault && tempSettings["short"] === shortBreakDefault && tempSettings["long"] === longBreakDefault)} className='update-btn' type='submit' onClick={(e) => handleUpdateSettings(e)}>Update Settings</button>
             </form>
         </div>}
         

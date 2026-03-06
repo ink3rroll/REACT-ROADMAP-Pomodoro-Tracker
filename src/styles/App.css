@@ -123,6 +123,21 @@ input:active, input:focus {
   transition: 0.2s ease;
 }
 
+.toast {
+  top: 90%;
+  align-self: center;
+  margin-inline: auto;
+  position: fixed;
+  background-color: rgb(61, 59, 59);
+  border: none;
+  border-radius: 4px;
+  z-index: 5;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  transition: 1s ease;
+}
+
 .progress-container {
   background-color: rgb(61, 59, 59);
   width: 90%;
