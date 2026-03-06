@@ -134,21 +134,22 @@ function App() {
         <div onMouseDown={(e) => {if (e.target === e.currentTarget){setHideModal(true)} }} className='settings-modal'>
           <form action="" onMouseDown={(e) => e.stopPropagation()}>
               <label style={{ color: textColor1 }} htmlFor="focus">Focus Default Timer Min</label>
-              <input style={{ color: textColor1 }} type="number" min="1" step="1" onChange={(e) => setTempSettings({...tempSettings, focus: Number(e.target.value)})} name="" id="focus" value={tempSettings["focus"]} />
+              <input style={{ color: textColor1 }} type="number" min="1" step="1" onChange={(e) => setTempSettings({...tempSettings, focus: e.target.value === "" ? "" : Number(e.target.value)})} name="" id="focus" value={tempSettings["focus"]} />
               <label style={{ color: textColor2 }} htmlFor="short">Short Break Default Timer Min</label>
-              <input style={{ color: textColor2 }} type="number" min="1" step="1" onChange={(e) => setTempSettings({...tempSettings, short: Number(e.target.value)})} name="" id="short" value={tempSettings["short"]} />
+              <input style={{ color: textColor2 }} type="number" min="1" step="1" onChange={(e) => setTempSettings({...tempSettings, short: e.target.value === "" ? "" : Number(e.target.value)})} name="" id="short" value={tempSettings["short"]} />
               <label style={{ color: textColor3 }} htmlFor="long">Long Break Default Timer Min</label>
-              <input style={{ color: textColor3 }} type="number" min="1" step="1" onChange={(e) => setTempSettings({...tempSettings, long: Number(e.target.value)})} name="" id="long" value={tempSettings["long"]}/>
+              <input style={{ color: textColor3 }} type="number" min="1" step="1" onChange={(e) => setTempSettings({...tempSettings, long: e.target.value === "" ? "" : Number(e.target.value)})} name="" id="long" value={tempSettings["long"]}/>
               <button disabled={(tempSettings["focus"] === focusTimerDefault && tempSettings["short"] === shortBreakDefault && tempSettings["long"] === longBreakDefault)} className='update-btn' type='submit' onClick={(e) => handleUpdateSettings(e)}>Update Settings</button>
             </form>
         </div>}
         
-    
+        <button onClick={() => setHideModal(false)} className='settings-btn'><FiSettings/></button>
         <div className="row">
           <button onClick={() => setTimerMode(0)} className='timer-mode-btn' data-active={timerMode === 0}>Focus</button>
           <button onClick={() => setTimerMode(1)} className='timer-mode-btn' data-active={timerMode === 1}>Short Break</button>
           <button onClick={() => setTimerMode(2)} className='timer-mode-btn' data-active={timerMode === 2}>Long Break</button>
         </div>
+        
         
         <h1>{formatTime(mainTimer)}</h1>
         <div className="row">
@@ -156,7 +157,7 @@ function App() {
             <div style={{ width: `${progressPercent}%` }} className='progress-bar'></div>
           </div>
         </div>
-        <button onClick={() => setHideModal(false)} className='settings-btn'><FiSettings/></button>
+        
         
         <div className="row">
           <button onClick={() => {
