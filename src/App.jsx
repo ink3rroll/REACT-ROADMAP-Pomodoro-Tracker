@@ -42,10 +42,10 @@ function App() {
 
   function handleUpdateSettings(e) {
     e.preventDefault()
-    if (tempSettings["focus"] > 59 || tempSettings["short"] > 59 || tempSettings["long"] > 59 ) {
-      if (tempSettings["focus"] > 59) setTextColor1("red")
-      if (tempSettings["short"] > 59) setTextColor2("red")
-      if (tempSettings["long"] > 59) setTextColor3("red")
+    if (tempSettings["focus"] > 59 || tempSettings["short"] > 59 || tempSettings["long"] > 59 || tempSettings["focus"] %1 != 0 || tempSettings["short"] %1 != 0 || tempSettings["long"] %1 != 0 ) {
+      if (tempSettings["focus"] > 59 || tempSettings["focus"] %1 != 0) setTextColor1("red")
+      if (tempSettings["short"] > 59 || tempSettings["short"] %1 != 0) setTextColor2("red")
+      if (tempSettings["long"] > 59 || tempSettings["long"] %1 != 0) setTextColor3("red")
       return
     }
     setTextColor1("white")
