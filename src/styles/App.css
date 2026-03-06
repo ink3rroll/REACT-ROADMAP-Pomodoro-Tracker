@@ -111,7 +111,6 @@ input:active, input:focus {
 .timer-mode-btn[data-active="true"] {
   background-color: rgb(24, 23, 23);
   color: white;
-  font-size: 14px;
 }
 
 .settings-btn {
