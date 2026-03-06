@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
 import { FiSettings } from 'react-icons/fi'
+import alarmsound from './assets/alarm.mp3'
 
 import './styles/App.css'
 
 function App() {
+
+  const alarm = new Audio(alarmsound)
   // 0 = Focus, 1 = Short Break, 2 = Long Break
   const [timerMode, setTimerMode] = useState(0)
   
@@ -13,7 +16,7 @@ function App() {
   const [hideModal, setHideModal] = useState(true)
 
   const [focusTimerDefault, setFocusTimerDefault] = useState(25)
-  const [shortBreakDefault, setShortBreakDefault] = useState(0.1)
+  const [shortBreakDefault, setShortBreakDefault] = useState(5)
   const [longBreakDefault, setLongBreakDefault] = useState(15)
 
   const [tempSettings, setTempSettings] = useState({
@@ -24,7 +27,15 @@ function App() {
   const [currentTimeAllocation, setCurrentTimeAllocation] = useState(focusTimerDefault)
   const [mainTimer, setMainTimer] = useState(10)
 
+  function resetTimer() {
+      setCurrentTimeAllocation(timerMode === 0 ? focusTimerDefault : timerMode === 1 ? shortBreakDefault : longBreakDefault)
+      setTimerStatus(0)
+      console.log("current time in main: ", timerMode === 0 ? focusTimerDefault * 60 : timerMode === 1 ? shortBreakDefault * 60 : longBreakDefault * 60)
+      setMainTimer(timerMode === 0 ? focusTimerDefault * 60 : timerMode === 1 ? shortBreakDefault * 60 : longBreakDefault * 60)
+  }
+
   function handleUpdateSettings() {
+    
     setFocusTimerDefault(tempSettings["focus"])
     setShortBreakDefault(tempSettings["short"])
     setLongBreakDefault(tempSettings["long"])
@@ -41,6 +52,10 @@ function App() {
     setHideModal(true)
   }
 
+  useEffect(() => {
+    resetTimer()
+  }, [focusTimerDefault, shortBreakDefault, longBreakDefault])
+
 
   function formatTime(timeInSeconds) {
     const minutes = Math.floor(timeInSeconds / 60)
@@ -56,6 +71,8 @@ function App() {
       interval = setInterval(() => {
          setMainTimer((prev) => prev-1)
       }, 1000)
+    } else if(mainTimer === 0) {
+      alarm.play()
     }
 
     return () => clearInterval(interval)
@@ -77,8 +94,8 @@ function App() {
   }, [timerMode])
 
 
-  let progressPercent = (mainTimer/(currentTimeAllocation * 60) * 100)
-  console.log(progressPercent)
+  let progressPercent = ((mainTimer/(currentTimeAllocation * 60)) * 100)
+
   
 
   return (
@@ -86,15 +103,15 @@ function App() {
     
       <div className='container'>
         {!hideModal && 
-        <div onClick={() => setHideModal(true)} className='settings-modal'>
-          <form action="" onClick={(e) => e.stopPropagation()}>
+        <div onMouseDown={(e) => {if (e.target === e.currentTarget){setHideModal(true)} }} className='settings-modal'>
+          <form action="" onMouseDown={(e) => e.stopPropagation()}>
               <label htmlFor="focus">Focus Default Timer Min</label>
               <input type="number" onChange={(e) => setTempSettings({...tempSettings, focus: e.target.value})} name="" id="focus" value={tempSettings["focus"]} />
               <label htmlFor="short">Short Break Default Timer Min</label>
               <input type="number" onChange={(e) => setTempSettings({...tempSettings, short: e.target.value})} name="" id="short" value={tempSettings["short"]} />
               <label htmlFor="long">Long Break Default Timer Min</label>
               <input type="number" onChange={(e) => setTempSettings({...tempSettings, long: e.target.value})} name="" id="long" value={tempSettings["long"]}/>
-              <button type='button' onClick={() => handleUpdateSettings()}>Update Settings</button>
+              <button disabled={(tempSettings["focus"] === focusTimerDefault && tempSettings["short"] === shortBreakDefault && tempSettings["long"] === longBreakDefault)} className='update-btn' type='button' onClick={() => handleUpdateSettings()}>Update Settings</button>
             </form>
         </div>}
         
@@ -133,11 +150,7 @@ function App() {
         </div>
         <div className="row">
           <button onClick={() => timerStatus === 0 ? setTimerStatus(1) : timerStatus === 2 ? setTimerStatus(1)  : setTimerStatus(2)} className='timer-control-btn' hidden={mainTimer === 0}>{timerStatus === 0 ? "Start" : timerStatus === 1 ? "Pause" : "Resume"}</button>
-          <button onClick={() => {
-            setTimerStatus(0)
-            setMainTimer(timerMode === 0 ? focusTimerDefault * 60 : timerMode === 1 ? shortBreakDefault * 60 : longBreakDefault * 60)
-            setCurrentTimeAllocation(timerMode === 0 ? focusTimerDefault : timerMode === 1 ? shortBreakDefault : longBreakDefault)
-            }} className='timer-control-btn' hidden={timerStatus === 0}>Reset</button>
+          <button onClick={() => resetTimer()} className='timer-control-btn' hidden={timerStatus === 0}>Reset</button>
             
         </div>
         

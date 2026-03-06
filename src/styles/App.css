@@ -36,7 +36,7 @@ form {
   align-self: center;
   justify-self: center;
   text-align: center;
-  padding: 20px;
+  padding: 50px;
   border-radius: 10px;
 }
 
@@ -68,6 +68,22 @@ input:active, input:focus {
    border: transparent;
    outline: none;
 }
+
+.update-btn {
+  color: white;
+  background-color: #5e9c89;
+}
+
+.update-btn:hover {
+  color: white;
+  background-color: #4d8574;
+}
+
+.update-btn:disabled {
+  color: rgb(94, 94, 94);
+  background-color: #232f2c;
+}
+
 
 .container {
   display: flex;
