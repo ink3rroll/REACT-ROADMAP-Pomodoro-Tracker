@@ -93,8 +93,7 @@ function App() {
     }
   }, [timerMode])
 
-  console.log(currentTimeAllocation)
-  let progressPercent = ((mainTimer/(currentTimeAllocation * 60)) * 100)
+  let progressPercent = ((mainTimer/(currentTimeAllocation * 60)) * 100) > 100 ? 100 : ((mainTimer/(currentTimeAllocation * 60)) * 100)
 
   
 
