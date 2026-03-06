@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import { FiSettings } from 'react-icons/fi'
 import alarmsound from './assets/alarm.mp3'
+import lowtime from './assets/lowtime.mp3'
 
 import './styles/App.css'
 
 function App() {
 
   const alarm = new Audio(alarmsound)
+  const low = new Audio(lowtime)
   // 0 = Focus, 1 = Short Break, 2 = Long Break
   const [timerMode, setTimerMode] = useState(0)
   
@@ -73,6 +75,10 @@ function App() {
       }, 1000)
     } else if(mainTimer === 0) {
       alarm.play()
+    }
+
+    if (mainTimer < 11) {
+      low.play()
     }
 
     return () => clearInterval(interval)
